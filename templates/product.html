@@ -13,3 +13,9 @@
     <a href="{{ url_for('index') }}">Back to Store</a>
 </body>
 </html>
+<form method="POST" action="/order/{{ product.id }}">
+    <input name="customer_name" placeholder="Your Name" required>
+    <input name="phone" placeholder="Phone Number" required>
+    <input name="quantity" type="number" value="1" min="1" required>
+    <button type="submit">Place Order</button>
+</form>

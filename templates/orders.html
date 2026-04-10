@@ -1,0 +1,14 @@
+<h1>Orders</h1>
+
+<ul>
+{% for o in orders %}
+    <li>
+        <b>{{ o.product_name }}</b><br>
+        Customer: {{ o.customer_name }}<br>
+        Phone: {{ o.phone }}<br>
+        Quantity: {{ o.quantity }}<br>
+        Status: {{ o.status }}
+        <hr>
+    </li>
+{% endfor %}
+</ul>

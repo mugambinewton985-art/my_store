@@ -108,3 +108,32 @@ def edit_product(id):
     conn.close()
 
     return render_template('edit_product.html', product=product)
+@app.route('/order/<int:product_id>', methods=['POST'])
+def order(product_id):
+    conn = get_db()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,)
+    ).fetchone()
+
+    customer_name = request.form['customer_name']
+    phone = request.form['phone']
+    quantity = request.form['quantity']
+
+    conn.execute("""
+        INSERT INTO orders (product_name, quantity, customer_name, phone)
+        VALUES (?, ?, ?, ?)
+    """, (product['name'], quantity, customer_name, phone))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('index'))
+@app.route('/orders')
+def orders():
+    conn = get_db()
+    orders = conn.execute("SELECT * FROM orders").fetchall()
+    conn.close()
+    return render_template('orders.html', orders=orders)
+
