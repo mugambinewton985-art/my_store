@@ -33,3 +33,138 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hyper Store Kenya - Admin Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            color: #22c55e;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px;
+            background: #22c55e;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #16a34a;
+        }
+
+        .product {
+            background: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        a.action {
+            margin-right: 10px;
+            color: blue;
+        }
+
+        a.delete {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Hyper Store</h2>
+    <a href="/">🏠 Home</a>
+    <a href="/admin">📊 Dashboard</a>
+    <a href="/orders">🛒 Orders</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h1>Admin Dashboard</h1>
+
+    <!-- ADD PRODUCT -->
+    <div class="card">
+        <h2>Add Product</h2>
+
+        <form method="POST" action="/add_product">
+            <input name="name" placeholder="Product Name" required>
+            <input name="price" placeholder="Price" required>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="card">
+        <h2>Products</h2>
+
+        {% for p in products %}
+        <div class="product">
+            <b>{{ p.name }}</b><br>
+            KES {{ p.price }}<br>
+            {{ p.description }}<br><br>
+
+            <a class="action" href="/edit_product/{{ p.id }}">Edit</a>
+            <a class="delete" href="/delete_product/{{ p.id }}">Delete</a>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
