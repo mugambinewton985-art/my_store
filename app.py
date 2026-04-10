@@ -78,3 +78,33 @@ def add_product():
     conn.close()
 
     return redirect(url_for('admin'))
+@app.route('/delete_product/<int:id>')
+def delete_product(id):
+    conn = get_db()
+    conn.execute("DELETE FROM products WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('admin'))
+@app.route('/edit_product/<int:id>', methods=['GET', 'POST'])
+def edit_product(id):
+    conn = get_db()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        price = request.form['price']
+        description = request.form['description']
+
+        conn.execute("""
+            UPDATE products
+            SET name = ?, price = ?, description = ?
+            WHERE id = ?
+        """, (name, price, description, id))
+
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin'))
+
+    product = conn.execute("SELECT * FROM products WHERE id = ?", (id,)).fetchone()
+    conn.close()
+
+    return render_template('edit_product.html', product=product)
