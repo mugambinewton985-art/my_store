@@ -1,0 +1,53 @@
+from flask import Flask, render_template, request, redirect, url_for, session
+
+app = Flask(__name__)
+app.secret_key = 'supersecretkey'  # Needed for session
+
+# Sample products
+products = [
+    {"id": 1, "name": "Laptop", "price": 50000, "description": "High performance laptop"},
+    {"id": 2, "name": "Phone", "price": 20000, "description": "Latest smartphone"},
+    {"id": 3, "name": "Headphones", "price": 5000, "description": "Noise cancelling headphones"}
+]
+
+# Home page showing products
+@app.route('/')
+def index():
+    return render_template('index.html', products=products)
+
+# Product details page
+@app.route('/product/<int:product_id>')
+def product(product_id):
+    product_item = next((p for p in products if p["id"] == product_id), None)
+    return render_template('product.html', product=product_item)
+
+# Add to cart
+@app.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    if "cart" not in session:
+        session["cart"] = []
+    session["cart"].append(product_id)
+    return redirect(url_for('cart'))
+
+# View cart
+@app.route('/cart')
+def cart():
+    if "cart" not in session or len(session["cart"]) == 0:
+        cart_items = []
+        total = 0
+    else:
+        cart_items = [next(p for p in products if p["id"] == pid) for pid in session["cart"]]
+        total = sum(item["price"] for item in cart_items)
+    return render_template('cart.html', cart_items=cart_items, total=total)
+
+# Checkout
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    session.pop("cart", None)  # Clear cart
+    return "<h1>Thank you for your purchase!</h1>"
+
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+

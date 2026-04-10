@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; padding: 20px; }
+.products { display: flex; gap: 20px; flex-wrap: wrap; }
+.product { border: 1px solid #ccc; padding: 10px; width: 200px; }
+button { padding: 10px 20px; background-color: green; color: white; border: none; cursor: pointer; }
