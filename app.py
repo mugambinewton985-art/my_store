@@ -51,3 +51,30 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
+@app.route('/')
+def index():
+    conn = get_db()
+    products = conn.execute("SELECT * FROM products").fetchall()
+    conn.close()
+    return render_template('index.html', products=products)
+@app.route('/admin')
+def admin():
+    conn = get_db()
+    products = conn.execute("SELECT * FROM products").fetchall()
+    conn.close()
+    return render_template('admin.html', products=products)
+@app.route('/add_product', methods=['POST'])
+def add_product():
+    name = request.form['name']
+    price = request.form['price']
+    description = request.form['description']
+
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO products (name, price, description) VALUES (?, ?, ?)",
+        (name, price, description)
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('admin'))
