@@ -136,4 +136,9 @@ def orders():
     orders = conn.execute("SELECT * FROM orders").fetchall()
     conn.close()
     return render_template('orders.html', orders=orders)
-
+@app.route('/admin')
+def admin():
+    conn = get_db()
+    products = conn.execute("SELECT * FROM products").fetchall()
+    conn.close()
+    return render_template('admin.html', products=products)
