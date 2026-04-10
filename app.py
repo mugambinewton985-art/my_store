@@ -153,3 +153,9 @@ def sitemap():
 @app.route('/google79512216d6a632fe.html')
 def google_verify():
     return "google-site-verification: @app.route('/http://google79512216d6a632fe.html/'"
+@app.route('/dashboard')
+def dashboard():
+    conn = get_db()
+    products = conn.execute("SELECT * FROM products").fetchall()
+    conn.close()
+    return render_template('dashboard.html', products=products)

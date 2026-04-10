@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hyper Store Kenya - Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        .topbar {
+            background: #111827;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+
+        .product {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        a {
+            margin-right: 10px;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <h2>📊 Dashboard</h2>
+    <a href="/" style="color:white;">🏠 Home</a>
+</div>
+
+<div class="container">
+
+    <!-- ADMIN PANEL INSIDE DASHBOARD -->
+    <div class="card">
+        <h2>Admin Panel - Add Product</h2>
+
+        <form method="POST" action="/add_product">
+            <input name="name" placeholder="Product Name" required>
+            <input name="price" placeholder="Price" required>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="card">
+        <h2>Products</h2>
+
+        {% for p in products %}
+        <div class="product">
+            <b>{{ p.name }}</b><br>
+            KES {{ p.price }}<br>
+            {{ p.description }}<br><br>
+
+            <a href="/edit_product/{{ p.id }}">Edit</a>
+            <a href="/delete_product/{{ p.id }}">Delete</a>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
