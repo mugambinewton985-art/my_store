@@ -156,3 +156,6 @@ def dashboard():
     products = conn.execute("SELECT * FROM products").fetchall()
     conn.close()
     return render_template('dashboard.html', products=products)
+@app.route('/test')
+def test():
+    return "NEW CODE IS LIVE"
